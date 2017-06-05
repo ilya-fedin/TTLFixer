@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TTL Fixer</string>
+
+    <string name="ttl_success">TTL successfully fixed</string>
+
+    <string name="ttl_error">Error at TTL fixing</string>
+</resources>

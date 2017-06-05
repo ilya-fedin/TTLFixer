@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TTL Fixer</string>
+    <string name="ttl_error">Ошибка при фиксации TTL</string>
+    <string name="ttl_success">TTL успешно зафиксирован</string>
+</resources>
