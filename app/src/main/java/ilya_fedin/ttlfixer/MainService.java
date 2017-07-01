@@ -12,13 +12,15 @@ import java.util.Scanner;
 import static java.lang.Runtime.getRuntime;
 
 public class MainService extends Service {
-    void successNotification(Context context, Resources res) {
+    Context context;
+    Resources res;
+
+    void successNotification() {
         NewNotification.notify(context, "result_notification", res.getString(R.string.ttl_success));
     }
 
-    void errorNotification(Context context, Resources res, String stdout, String stderr) {
-        String notificationText;
-        notificationText = res.getString(R.string.ttl_error);
+    void errorNotification(String stdout, String stderr) {
+        String notificationText = res.getString(R.string.ttl_error);
         if(stdout.length() > 0 || stderr.length() > 0) notificationText += ":";
         if(stdout.length() > 0) notificationText += "\n" + stdout;
         if(stderr.length() > 0) notificationText += "\n" + stderr;
@@ -27,8 +29,8 @@ public class MainService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        final Context context = getApplicationContext();
-        final Resources res = context.getResources();
+        context = getApplicationContext();
+        res = context.getResources();
         Process ttl_fix;
         try {
             ttl_fix = getRuntime().exec(new String[] {"su", "-c", "iptables -t mangle -A POSTROUTING -j TTL --ttl-set 64"});
@@ -38,13 +40,13 @@ public class MainService extends Service {
             String output = outputScanner.hasNext() ? outputScanner.next() : "";
             String error = errorScanner.hasNext() ? errorScanner.next() : "";
             if(output.length() == 0 && error.length() == 0) {
-                if (ttl_fix_code == 0) successNotification(context, res);
-                else errorNotification(context, res, output, error);
+                if (ttl_fix_code == 0) successNotification();
+                else errorNotification(output, error);
             } else {
-                errorNotification(context, res, output, error);
+                errorNotification(output, error);
             }
         } catch (IOException | InterruptedException e) {
-            errorNotification(context, res, e.toString(), "");
+            errorNotification(e.toString(), "");
         }
         Intent stopServiceIntent = new Intent(context, this.getClass());
         context.stopService(stopServiceIntent);
