@@ -67,6 +67,9 @@ public class NewNotification {
                 // Automatically dismiss the notification when it is touched.
                 .setAutoCancel(true);
 
+        // Small hack to get heads-up notification worked
+        if (Build.VERSION.SDK_INT >= 21) builder.setVibrate(new long[0]);
+
         notify(context, builder.build(), NOTIFICATION_TAG);
     }
 
