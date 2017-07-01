@@ -6,10 +6,8 @@ import android.os.IBinder;
 
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
-import static java.lang.Runtime.*;
-import static java.util.concurrent.TimeUnit.*;
+import static java.lang.Runtime.getRuntime;
 
 public class MainService extends Service {
     public MainService() {
@@ -48,6 +46,7 @@ public class MainService extends Service {
         }
         Intent stopServiceIntent = new Intent(getApplicationContext(), this.getClass());
         getApplicationContext().stopService(stopServiceIntent);
+        System.exit(0);
         return super.onStartCommand(intent, flags, startId);
     }
 

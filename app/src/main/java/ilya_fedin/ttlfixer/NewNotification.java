@@ -38,10 +38,6 @@ public class NewNotification {
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
 
-                // Set appropriate defaults for the notification light, sound,
-                // and vibration.
-                .setDefaults(Notification.DEFAULT_ALL)
-
                 // Set required fields, including the small icon, the
                 // notification title, and text.
                 .setSmallIcon(R.drawable.ic_stat_ttl)
@@ -57,6 +53,10 @@ public class NewNotification {
                 // Provide a large icon, shown with the notification in the
                 // notification drawer on devices running Android 3.0 or later.
                 .setLargeIcon(picture)
+
+                // Set the pending intent to be initiated when the user touches
+                // the notification.
+                .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0))
 
                 // Show expanded text content on devices running Android 4.1 or
                 // later.
