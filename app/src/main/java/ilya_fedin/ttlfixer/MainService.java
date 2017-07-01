@@ -26,17 +26,21 @@ public class MainService extends Service {
     }
 
     @Override
-        public int onStartCommand(Intent intent, int flags, int startId) {
-            Process ttl_fix = null;
-            try {
-                ttl_fix = getRuntime().exec(new String[]{"su", "-c", "iptables -t mangle -A POSTROUTING -j TTL --ttl-set 64"});
-                int ttl_fix_code = ttl_fix.waitFor();
-                Scanner outputScanner = new Scanner(ttl_fix.getInputStream()).useDelimiter("\\A");
-                Scanner errorScanner = new Scanner(ttl_fix.getErrorStream()).useDelimiter("\\A");
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Process ttl_fix = null;
+        try {
+            ttl_fix = getRuntime().exec(new String[]{"su", "-c", "iptables -t mangle -A POSTROUTING -j TTL --ttl-set 64"});
+            int ttl_fix_code = ttl_fix.waitFor();
+            Scanner outputScanner = new Scanner(ttl_fix.getInputStream()).useDelimiter("\\A");
+            Scanner errorScanner = new Scanner(ttl_fix.getErrorStream()).useDelimiter("\\A");
             String output = outputScanner.hasNext() ? outputScanner.next() : "";
             String error = errorScanner.hasNext() ? errorScanner.next() : "";
-            if(ttl_fix_code == 0) successNotification();
-            else errorNotification(output, error);
+            if(output.length() == 0 || error.length() == 0) {
+                if (ttl_fix_code == 0) successNotification();
+                else errorNotification(output, error);
+            } else {
+                errorNotification(output, error);
+            }
         } catch (IOException e) {
             errorNotification(e.toString(), "");
         } catch (InterruptedException e) {
