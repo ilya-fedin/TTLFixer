@@ -68,7 +68,7 @@ public class NewNotification {
                 .setAutoCancel(true);
 
         // Small hack to get heads-up notification worked
-        if (Build.VERSION.SDK_INT >= 21) builder.setVibrate(new long[0]);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) builder.setVibrate(new long[0]);
 
         notify(context, builder.build(), NOTIFICATION_TAG);
     }
