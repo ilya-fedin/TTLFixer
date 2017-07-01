@@ -15,12 +15,12 @@ public class MainService extends Service {
 
     void successNotification() {
         NewNotification newNotification = new NewNotification();
-        newNotification.notify(getApplicationContext(), "success", getApplicationContext().getResources().getString(R.string.ttl_success));
+        newNotification.notify(getApplicationContext(), "result_notification", getApplicationContext().getResources().getString(R.string.ttl_success));
     }
 
     void errorNotification(String stdout, String stderr) {
         NewNotification newNotification = new NewNotification();
-        newNotification.notify(getApplicationContext(), "error", getApplicationContext().getResources().getString(R.string.ttl_error) + (stdout.length() > 0 || stderr.length() > 0 ? ":\n" : "") + (stdout.length() > 0 ? stdout : "") + (stdout.length() > 0 && stderr.length() > 0 ? "\n" : "") + (stderr.length() > 0 ? stderr : ""));
+        newNotification.notify(getApplicationContext(), "result_notification", getApplicationContext().getResources().getString(R.string.ttl_error) + (stdout.length() > 0 || stderr.length() > 0 ? ":\n" : "") + (stdout.length() > 0 ? stdout : "") + (stdout.length() > 0 && stderr.length() > 0 ? "\n" : "") + (stderr.length() > 0 ? stderr : ""));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MainService extends Service {
             Scanner errorScanner = new Scanner(ttl_fix.getErrorStream()).useDelimiter("\\A");
             String output = outputScanner.hasNext() ? outputScanner.next() : "";
             String error = errorScanner.hasNext() ? errorScanner.next() : "";
-            if(output.length() == 0 || error.length() == 0) {
+            if(output.length() == 0 && error.length() == 0) {
                 if (ttl_fix_code == 0) successNotification();
                 else errorNotification(output, error);
             } else {
