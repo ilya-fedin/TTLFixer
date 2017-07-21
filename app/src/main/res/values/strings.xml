@@ -2,5 +2,6 @@
     <string name="app_name">TTL Fixer</string>
     <string name="ttl_success">TTL successfully fixed</string>
     <string name="ttl_error">Error at TTL fixing</string>
-    <string name="ttl_incorrect_value">TTL value is incorrect</string>
+    <string name="ttl_incorrect_value">Error: TTL value is incorrect</string>
+    <string name="root_error">Error: device is not rooted</string>
 </resources>
